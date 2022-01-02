@@ -1,31 +1,34 @@
 ﻿namespace AsyncTryResult
 {
-    public class TryGetResult<T>
+    public sealed class TryGetResult<T>
     {
         public bool Success { get; }
 
-        public T Result { get; set; }
+        public T Result { get; }
 
 
-        private TryGetResult(bool success)
+        private TryGetResult()
         {
-            this.Success = success;
+            this.Success = false;
+        }
+
+        private TryGetResult(T result)
+        {
+            this.Success = true;
+            this.Result = result;
         }
 
 
         public static TryGetResult<T> Succeeded(T result)
         {
-            var tryGetResult = new TryGetResult<T>(true)
-            {
-                Result = result
-            };
+            var tryGetResult = new TryGetResult<T>(result);
 
             return tryGetResult;
         }
 
         public static TryGetResult<T> Failed()
         {
-            var tryGetResult = new TryGetResult<T>(false);
+            var tryGetResult = new TryGetResult<T>();
 
             return tryGetResult;
         }
